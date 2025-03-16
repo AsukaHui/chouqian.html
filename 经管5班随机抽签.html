@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)file:///C:/Users/21403/Desktop/%E6%8A%BD%E7%AD%BE%E7%82%B9%E5%90%8D.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>经管5班随机抽签</title>
+    <style>
+        body {
+            background: url('https://img.zcool.cn/community/01e4b45d3ae211a8012187f4163d7a.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #FF69B4;
+            text-shadow: 2px 2px 4px white;
+            font-size: 2.5em;
+        }
+
+        #nameDisplay {
+            font-size: 3em;
+            margin: 40px 0;
+            color: white;
+            text-shadow: 2px 2px 4px #FF1493;
+            background-color: rgba(255, 182, 193, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 80px;
+        }
+
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: #FF1493;
+        }
+
+        .speed-control {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .highlight {
+            color: #FFD700;
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎀 经管5班随机抽签 🎀</h1>
+        <div id="nameDisplay" class="highlight">肖鸿图</div>
+        <div id="controls">
+            <div class="speed-control">
+                <label for="speedRange">滚动速度：</label>
+                <input type="range" id="speedRange" min="50" max="300" value="150">
+            </div>
+            <br>
+            <button id="startBtn">🎀 开始点名 🎀</button>
+        </div>
+    </div>
+
+    <script>
+        const names = ["王一喆","顾杰","焦辉","肖鸿图","钟继泽","张迈","叶滋","张祺立","刘子涵","杨灿",
+                      "赵宇星","高乐霞","宋卓徽","吴姊怡","卢海心","梁馨月","李佳颐","陈文慧","袁心乐",
+                      "陈梦涵","赵可欣","李博文","刘文睿","何思瑞","李佳欣","殷铭露","袁文千"];
+        
+        let isRolling = false;
+        let intervalId;
+        const nameDisplay = document.getElementById('nameDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const speedRange = document.getElementById('speedRange');
+
+        function getRandomName() {
+            return names[Math.floor(Math.random() * names.length)];
+        }
+
+        function updateSpeed() {
+            if (isRolling) {
+                clearInterval(intervalId);
+                intervalId = setInterval(rollName, speedRange.value);
+            }
+        }
+
+        function rollName() {
+            nameDisplay.textContent = getRandomName();
+            nameDisplay.classList.remove('highlight');
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (!isRolling) {
+                isRolling = true;
+                startBtn.textContent = '🎀 暂停点名 🎀';
+                intervalId = setInterval(rollName, speedRange.value);
+            } else {
+                isRolling = false;
+                startBtn.textContent = '🎀 开始点名 🎀';
+                clearInterval(intervalId);
+                nameDisplay.classList.add('highlight');
+            }
+        });
+
+        speedRange.addEventListener('input', updateSpeed);
+    </script>
+
+</body></html>
